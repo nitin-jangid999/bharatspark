@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'widgets.dart';
@@ -15,7 +16,7 @@ class _AIChatScreenState extends State<AIChatScreen> {
   final List<Map<String, String>> _messages = [];
   bool _isLoading = false;
 
-  final String _apiKey = 'YOUR_NEW_API_KEY_HERE';
+  final String _apiKey = const String.fromEnvironment('GEMINI_API_KEY');
 
   Future<void> _sendMessage(String message) async {
     if (message.trim().isEmpty) return;
@@ -31,7 +32,7 @@ class _AIChatScreenState extends State<AIChatScreen> {
     try {
       final response = await http.post(
         Uri.parse(
-          'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=$_apiKey',
+          'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=$_apiKey',
         ),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
